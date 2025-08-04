@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Autodeclaração Social, Ambiental e Climática</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+<body>
+  
+<header class="top-header">
+  <div class="menu-logo">
+    <div class="hamburger">☰</div>
+    <img alt="Logo CAIXA" class="logo" src="Caixa-logo.svg" style="height:16px;" />
+    <span class="sistema-nome">SIRSA - Sistema de Risco Social, Ambiental e Climático <p class="versao">Versão front-end: 00 &nbsp; Versão back-end: 00</p></span>
+  </div>
+
+  <div class="usuario-info">
+    <span>#EXTERNO.CONFIDENCIAL</span>
+    <div class="tooltip">
+      
+<img src="user-icon.svg" alt="Ícone do usuário" style="width:32px; height:32px;">
+
+      <span class="tooltiptext">
+        Nome: fulano.<br/>
+        CPF: 000.000.000-50<br/>
+        Empresa logada: Industrial S/A.<br/>
+        Data: 27/07/2025.
+      </span>
+    </div>
+  </div>
+</header>
+
+
+
+  <div class="container">
+    <h1>Autodeclaração Social, Ambiental e Climática</h1>
+    <h3>Bem-vindo</h3><br>
+    <p>Para uma atuação sustentável nos negócios e atendendo às normas e regulações sociais, ambientais e climáticas, a CAIXA agradece sua contribuição com o envio das informações solicitadas nas próximas telas.</p>
+    <p>As suas respostas são salvas automaticamente. Assim, se precisar fazer uma pausa, você pode retornar de onde parou.</p>
+    <p>Caso precise alterar as respostas enviadas basta retornar ao questionário, a qualquer tempo, realizar as alterações e clicar novamente em “Enviar”.</p><br><br>
+
+    <h3>Para qual empresa deseja responder?</h3>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Razão social</th>
+            <th>CNPJ</th>
+            <th>Nome fantasia</th>
+            <th>Data da última resposta</th>
+            <th>Ação</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="empresa-table">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const empresas = [
+      {
+        razao: "Indústria e comércio S/A",
+        cnpj: "55.984.124/0001-50",
+        fantasia: "Indusfeliz",
+        data: "-",
+        status: "A iniciar"
+      },
+      {
+        razao: "Empresa S/A",
+        cnpj: "22.639.448/0001-52",
+        fantasia: "EmpSA",
+        data: "13/07/2025",
+        status: "Não finalizado"
+      },
+      {
+        razao: "Company S/A",
+        cnpj: "90.467.923/0001-40",
+        fantasia: "Coopert",
+        data: "15/02/2025",
+        status: "Vigente"
+      },
+      {
+        razao: "Companhia Ltda",
+        cnpj: "84.715.039/0001-85",
+        fantasia: "C&O",
+        data: "06/01/2024",
+        status: "Vencido"
+      }
+    ];
+
+    const tbody = document.getElementById("empresa-table");
+
+    empresas.forEach(empresa => {
+      const tr = document.createElement("tr");
+
+      const botao = empresa.status === "Vigente"
+        ? '<button class="btn-atualizar" onclick="irParaSegundaPagina()">Atualizar</button>'
+        : '<button class="btn-responder" onclick="irParaSegundaPagina()">Responder</button>';
+
+      tr.innerHTML = `
+        <td>${empresa.razao}</td>
+        <td>${empresa.cnpj}</td>
+        <td>${empresa.fantasia}</td>
+        <td>${empresa.data}</td>
+        <td>${botao}</td>
+        <td>${empresa.status}</td>
+      `;
+
+      tbody.appendChild(tr);
+    });
+
+    function irParaSegundaPagina() {
+      window.location.href = "2-Aspectos-gerais.html";
+    }
+  </script>
+
+<!-- inativado
+<footer>
+  <div class="progress-container">
+    <select id="questoesSelect" class="questoes-select"></select>
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+ 
+  <div class="buttons">
+    <button class="button btn-voltare">Voltar</button>
+    <button class="button btn-salvar">Salvar</button>
+    <button class="button btn-avancar">Avançar</button>
+  </div>
+</footer>
+<script>
+  const questoes = [
+    { id: 1, status: 'preenchida' },
+    { id: 2, status: 'em-preenchimento' },
+    { id: 3, status: 'perdida' },
+    { id: 4, status: 'nao-preenchida' }
+  ];
+ 
+  const statusLabel = {
+    'preenchida': 'OK',
+    'em-preenchimento': 'Respondendo',
+    'perdida': 'Perdida',
+    'nao-preenchida': 'Não preenchida'
+  };
+ 
+  const statusColors = {
+    'preenchida': '#4CAF50',
+    'em-preenchimento': '#003366',
+    'perdida': '#e53935',
+    'nao-preenchida': '#ccc'
+  };
+ 
+  const select = document.getElementById('questoesSelect');
+  const progressBar = document.getElementById('progressBar');
+ 
+  function gerarSelectEDominio() {
+    select.innerHTML = '';
+    progressBar.innerHTML = '';
+ 
+    questoes.forEach(q => {
+      const option = document.createElement('option');
+      option.textContent = `Questão ${q.id} - ${statusLabel[q.status]}`;
+      option.style.backgroundColor = statusColors[q.status];
+      if (q.status === 'em-preenchimento' || q.status === 'perdida') {
+        option.style.color = '#fff';
+      }
+      if (q.status === 'perdida') {
+        option.selected = true;
+      }
+      select.appendChild(option);
+ 
+      const span = document.createElement('span');
+      span.className = q.status;
+      progressBar.appendChild(span);
+    });
+  }
+ 
+  gerarSelectEDominio();
+</script>
+-->
+
+</body>
+</html>
